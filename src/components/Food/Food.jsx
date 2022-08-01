@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
+import { AiOutlineSearch } from 'react-icons/ai';
+
 import { data } from '../../helper/data';
 
 const Food = () => {
 	const [food, setFood] = useState(data);
+	const [search, setSearch] = useState('');
 
 	const filterType = (category) => {
 		setFood(
@@ -26,6 +29,17 @@ const Food = () => {
 				<h1 className="text-orange-600 font-bold text-4xl text-center">
 					Top Rated Menu Items
 				</h1>
+				<div className="flex justify-center my-5">
+					<div className="bg-gray-200 rounded-full flex items-center px-2 w-[200px] sm:w-[400px] lg:w-[500px]">
+						<AiOutlineSearch size={30} />
+						<input
+							className="bg-transparent p-2 w-full focus:outline-none"
+							type="text"
+							placeholder="Search food"
+							onClick={(e) => setSearch(e.target.value)}
+						/>
+					</div>
+				</div>
 
 				{/* Filter Row */}
 				<div className="flex flex-col lg:flex-row justify-between">
@@ -114,26 +128,36 @@ const Food = () => {
 
 				{/* Display Foods */}
 				<div className="grid grid-cols-2 lg: gridcols-4 gap-6 pt-4">
-					{food.map((item) => (
-						<div
-							className="border shadow-lg rounded-lg hover:scale-105 duration-300"
-							key={item.id}
-						>
-							<img
-								className="w-full h-[300px] object-cover rounded-t-lg"
-								src={item.image}
-								alt={item.name}
-							/>
-							<div className="flex justify-between px-2 py-4">
-								<p className="font-bold">{item.name}</p>
-								<p>
-									<span className="bg-orange-500 text-white p-1 rounded-full">
-										{item.price}
-									</span>
-								</p>
+					{food
+						.filter((item) => {
+							return search.toLowerCase() === ''
+								? item
+								: item.name
+										.toLowerCase()
+										.includes(search);
+						})
+						.map((item) => (
+							<div
+								className="border shadow-lg rounded-lg hover:scale-105 duration-300"
+								key={item.id}
+							>
+								<img
+									className="w-full h-[300px] object-cover rounded-t-lg"
+									src={item.image}
+									alt={item.name}
+								/>
+								<div className="flex justify-between px-2 py-4">
+									<p className="font-bold">
+										{item.name}
+									</p>
+									<p>
+										<span className="bg-orange-500 text-white p-1 rounded-full">
+											{item.price}
+										</span>
+									</p>
+								</div>
 							</div>
-						</div>
-					))}
+						))}
 					<div></div>
 				</div>
 			</div>
