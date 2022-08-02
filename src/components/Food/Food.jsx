@@ -36,7 +36,7 @@ const Food = () => {
 							className="bg-transparent p-2 w-full focus:outline-none"
 							type="text"
 							placeholder="Search food"
-							onClick={(e) => setSearch(e.target.value)}
+							onChange={(e) => setSearch(e.target.value)}
 						/>
 					</div>
 				</div>
